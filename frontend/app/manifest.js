@@ -20,7 +20,7 @@ export default function manifest() {
         type: 'image/png'
       },
       {
-        src: '/android-chrome-512x512.png',
+        src: '/androidandroid-chrome-96x96.png',
         sizes: '96x96',
         type: 'image/png'
       }
