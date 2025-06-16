@@ -22,7 +22,30 @@ const upload = multer({ storage: storage });
 const app = express();
 const PORT = process.env.PORT || 3001;
 
-app.use(cors({ origin: 'http://localhost:3000' }));
+// --- INÍCIO DA SOLUÇÃO ---
+
+// Lista de domínios que podem fazer requisições para sua API
+const allowedOrigins = [
+  'http://localhost:3000',                // Seu ambiente de desenvolvimento local
+  'https://www.meubairrojoinville.com',     // Seu site em produção com 'www'
+  'https://meubairrojoinville.com'        // Seu site em produção sem 'www'
+  // Se a Vercel te deu uma URL terminada em .vercel.app, você pode adicioná-la aqui também.
+];
+
+const corsOptions = {
+  origin: function (origin, callback) {
+    // Permite requisições sem 'origin' (como Postman) ou da nossa lista de permissões
+    if (!origin || allowedOrigins.indexOf(origin) !== -1) {
+      callback(null, true);
+    } else {
+      callback(new Error('Not allowed by CORS'));
+    }
+  }
+};
+
+app.use(cors(corsOptions));
+
+// --- FIM DA SOLUÇÃO ---
 app.use(express.json());
 
 // --- ROTAS DA API ---
